@@ -1,18 +1,20 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import firedb from './firebase';
 import { getDatabase, ref, set,get,child } from "firebase/database";
   
-const App =() => {
-  const [name , setName] = useState();
-  const [age , setAge] = useState();
-  const [searchid, setSearchId] = useState();
-  const [id, setId] = useState();
+const Datapush =() => {
+    const[name,setName]= useState('');
+    const[password,setPassword] = useState('');
+    const[searchid,setSearchId] = useState('');
+    const statusdate =new Date().toLocaleDateString();
+    const statustime = new Date().toLocaleTimeString();
       
   const Push = () => {
-    set(ref(firedb, 'users/' + id), {
+    set(ref(firedb, 'userstatus/'+name), {
       name: name,
-      age: age,
-      id:id
+      statustime:statustime,
+      statusdate:statusdate,
+      status:'Off'
     }).then(()=>{alert('Data has been inserted')});
   }
   const Search = () => {
@@ -34,12 +36,6 @@ const App =() => {
       <input placeholder="Name" value={name} 
       onChange={(e) => setName(e.target.value)}/>
       <br/><br/>
-      <input placeholder="Age" value={age} 
-      onChange={(e) => setAge(e.target.value)}/>
-      <br/><br/>
-      <input placeholder="ID" value={id} 
-      onChange={(e) => setId(e.target.value)}/>
-      <br/><br/>
       <button onClick={Push}>PUSH</button>
       <br/><br/>
       <input placeholder="SearchId" value={searchid} 
@@ -51,4 +47,4 @@ const App =() => {
   );
 }
   
-export default App;
+export default Datapush;

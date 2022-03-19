@@ -19,7 +19,35 @@ firebase = pyrebase.initialize_app(config);
 
 db = firebase.database();
 
-userdata = {"members":["member1","member2","member3","member4","member5"]};
+userdata = {"plants": [
+    {
+      "name": "Alder",
+      "species": "Alnus"
+    },
+    {
+      "name": "Black alder",
+      "species": "Alnus glutinosa, Ilex verticillata"
+    },
+    {
+      "name": "Common alder",
+      "species": "Alnus glutinosa"
+    },
+    {
+      "name": "False alder",
+      "species": "Ilex verticillata"
+    },
+    {
+      "name": "Gray alder",
+      "species": "Alnus incana"
+    },
+    {
+      "name": "Speckled alder",
+      "species": "Alnus incana"
+    },
+    {
+      "name": "Striped alder",
+      "species": "Ilex verticillata"
+    }]};
 db.child("flaskdata").child("1918295").push(userdata)
 users = db.child("flaskdata").child("1918295").child("-My2Adtwf2sWBBczDPvL").get()
 
@@ -27,6 +55,6 @@ users = db.child("flaskdata").child("1918295").child("-My2Adtwf2sWBBczDPvL").get
 
 @app.route("/members")
 def hello_world():
-    return users.val();
+    return userdata;
 
 app.run(debug=True)

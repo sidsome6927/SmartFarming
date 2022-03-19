@@ -1,54 +1,39 @@
-import {useState} from 'react';
-import firedb from './firebase';
-import { getDatabase, ref, set,get,child } from "firebase/database";
-  
-const App =() => {
-  const [name , setName] = useState();
-  const [age , setAge] = useState();
-  const [searchid, setSearchId] = useState();
-  const [id, setId] = useState();
-      
-  const Push = () => {
-    set(ref(firedb, 'users/' + id), {
-      name: name,
-      age: age,
-      id:id
-    }).then(()=>{alert('Data has been inserted')});
-  }
-  const Search = () => {
-    const dbRef = ref(firedb);
-    get(child(dbRef, `users/${searchid}/name`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-  
+import Sidebar from "./components/sidebar/Sidebar";
+import Topbar from "./components/topbar/Topbar";
+import "./App.css";
+import Home from "./pages/home/Home";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import UserList from "./pages/userList/UserList";
+import User from "./pages/user/User";
+import NewUser from "./pages/newUser/NewUser";
+import ProductList from "./pages/productList/ProductList";
+import Product from "./pages/product/Product";
+import NewProduct from "./pages/newProduct/NewProduct"
+import Login from "./pages/login/Login"
+
+function App() {
   return (
-    <div className="App" style={{marginTop : 250}}>
-      <center>
-      <input placeholder="Name" value={name} 
-      onChange={(e) => setName(e.target.value)}/>
-      <br/><br/>
-      <input placeholder="Age" value={age} 
-      onChange={(e) => setAge(e.target.value)}/>
-      <br/><br/>
-      <input placeholder="ID" value={id} 
-      onChange={(e) => setId(e.target.value)}/>
-      <br/><br/>
-      <button onClick={Push}>PUSH</button>
-      <br/><br/>
-      <input placeholder="SearchId" value={searchid} 
-      onChange={(e) => setSearchId(e.target.value)}/>
-      <br/><br/>
-      <button onClick={Search}>SEARCH</button>
-      </center>
-    </div>
+    <Router>
+    <Routes>
+    <Route path = "/" element= {<Login/>}/>
+    </Routes>
+      <Topbar/>
+      <div className="container">
+      <Sidebar />
+      <Routes>
+        <Route exact path="/dashboard" element={<Home/>}/>
+        <Route path="/users" element={<UserList />}/>
+        <Route path="/user/:userId" element={<User />}/>
+        <Route path="/newUser" element={<NewUser />}/>
+        <Route path="/products" element={<ProductList />}/>
+        <Route path="/product/:productId" element={<Product />}/>
+        <Route path="/newproduct" element={<NewProduct />}/>
+      </Routes>
+
+
+      </div>
+    </Router>
   );
 }
-  
+
 export default App;

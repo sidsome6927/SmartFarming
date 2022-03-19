@@ -6,13 +6,20 @@ const TestFlask = ()=> {
     const [dataflask,setDataFlask] = useState('');
     useEffect(async ()=>{
     const res = await axios.get('/members')
-    setDataFlask(res.data)
+    setDataFlask(res.data.plants)
     
     },[])
     console.log(dataflask)
+    dataflask.map((i) => {
+        console.log(i.name)
+        console.log(i.species)
+    })
     return (
-        <h1>testfask</h1>
+        <h1>TEST</h1>
+        
     )
+        
+    
 }
 
 export default TestFlask;
